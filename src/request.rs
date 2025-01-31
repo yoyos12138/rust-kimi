@@ -3,9 +3,9 @@ use serde_with::skip_serializing_none;
 
 ///请求体
 #[skip_serializing_none]
-#[derive(Serialize)]
-pub struct RequestBody<T=()>
-where 
+#[derive(Serialize, Clone)]
+pub struct RequestBody<T = ()>
+where
     T: Serialize + for<'de> Deserialize<'de>,
 {
     /// 模型类型
@@ -72,19 +72,19 @@ where
 
 ///单条消息
 #[skip_serializing_none]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct SingleMessage {
     pub role: Role,
-    pub content:String,
-    
+    pub content: String,
+
     /// 在使用大模型时，有时我们希望通过预填（Prefill）部分模型回复来引导模型的输出。
     /// 在 Kimi 大模型中，我们提供 Partial Mode 来实现这一功能，
     /// 它可以帮助我们控制输出格式，引导输出内容，以及让模型在角色扮演场景中保持更好的一致性。
     /// 您只需要在最后一个 role 为 assistant 的 messages 条目中，
     /// 增加 "partial": True 即可开启 partial mode。
     /// 注意！请勿混用 partial mode 和 response_format=json_object，否则可能会获得预期外的模型回复。
-    pub partial:Option<bool>,
-    
+    pub partial: Option<bool>,
+
     /// 基于同样的原理，我们也可以能将角色信息补充在 Partial Mode 来提高角色扮演时的一致性。
     /// 我们使用明日方舟里的凯尔希医生为例。 注意此时我们还可以在 partial mode 的基础上，
     /// 比如使用 "name":"凯尔希" 字段来更好的保持该角色的一致性，注意这里可视 name 字段为
@@ -93,7 +93,7 @@ pub struct SingleMessage {
 }
 
 ///消息角色类型
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub enum Role {
     ///系统消息预设定等等
     #[serde(rename = "system")]
@@ -107,8 +107,7 @@ pub enum Role {
 }
 
 ///模型类型
-#[derive(Serialize,Deserialize,Debug)]
-#[serde(untagged)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum KimiModel {
     /// kimi的自动选择模型
     #[serde(rename = "moonshot-v1-auto")]
@@ -123,5 +122,6 @@ pub enum KimiModel {
     #[serde(rename = "moonshot-v1-128k")]
     MoonshotV1_128K,
     ///自定义模型
+    #[serde(untagged)]
     Other(String),
 }

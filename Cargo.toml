@@ -7,3 +7,6 @@ edition = "2021"
 serde_json="*"
 serde={version="*", features=["derive"]}
 serde_with="*"
+
+tokio={version="*", features=["full"]}
+reqwest = { version="*", features=["json", "multipart"]}

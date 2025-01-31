@@ -33,22 +33,17 @@ use crate::request::KimiModel;
 
 */
 
-#[derive(Serialize,Deserialize)]
+#[derive(Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Response {
-    
-}
+pub enum Response {}
 
-#[derive(Serialize,Deserialize)]
-pub struct  ResponseData {
+#[derive(Serialize, Deserialize)]
+pub struct ResponseData {
     pub id: String,
     pub object: String,
     pub created: i64,
     pub model: KimiModel,
-    
 }
 
-#[derive(Serialize,Deserialize)]
-pub struct ResponseError {
-    
-}
+#[derive(Serialize, Deserialize)]
+pub struct ResponseError {}
